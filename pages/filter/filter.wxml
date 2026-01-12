@@ -1,2 +1,136 @@
 <!--pages/filter/filter.wxml-->
-<text>pages/filter/filter.wxml</text>
+<view class="page">
+  <!-- 常驻筛选项目 - 性别 -->
+  <view class="filter-section">
+    <view class="section-title">性别筛选</view>
+    <view class="gender-filter">
+      <view class="filter-item {{genderFilter === 'all' ? 'active' : ''}}" bindtap="setGenderFilter" data-gender="all">
+        <text>全部</text>
+      </view>
+      <view class="filter-item {{genderFilter === '男' ? 'active' : ''}}" bindtap="setGenderFilter" data-gender="男">
+        <text>男</text>
+      </view>
+      <view class="filter-item {{genderFilter === '女' ? 'active' : ''}}" bindtap="setGenderFilter" data-gender="女">
+        <text>女</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 其他筛选条件 -->
+  <view class="filter-section">
+    <view class="section-title">筛选条件</view>
+    
+    <!-- 年龄范围 -->
+    <view class="filter-group">
+      <view class="filter-label">年龄范围</view>
+      <view class="range-inputs">
+        <input class="range-input" type="number" placeholder="最小年龄" value="{{minAge}}" bindinput="setMinAge" />
+        <text class="range-separator">-</text>
+        <input class="range-input" type="number" placeholder="最大年龄" value="{{maxAge}}" bindinput="setMaxAge" />
+      </view>
+    </view>
+
+    <!-- 身高范围 -->
+    <view class="filter-group">
+      <view class="filter-label">身高范围(cm)</view>
+      <view class="range-inputs">
+        <input class="range-input" type="number" placeholder="最小身高" value="{{minHeight}}" bindinput="setMinHeight" />
+        <text class="range-separator">-</text>
+        <input class="range-input" type="number" placeholder="最大身高" value="{{maxHeight}}" bindinput="setMaxHeight" />
+      </view>
+    </view>
+
+    <!-- 属相 -->
+    <view class="filter-group">
+      <view class="filter-label">属相</view>
+      <picker mode="selector" range="{{zodiacOptions}}" bindchange="setZodiacFilter">
+        <view class="picker-show">
+          <text>{{selectedZodiac || '请选择属相'}}</text>
+          <text class="arrow">›</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 职业 -->
+    <view class="filter-group">
+      <view class="filter-label">职业</view>
+      <input class="filter-input" placeholder="请输入职业关键词" value="{{occupationKeyword}}" bindinput="setOccupationFilter" />
+    </view>
+
+    <!-- 兄弟情况 -->
+    <view class="filter-group">
+      <view class="filter-label">兄弟情况</view>
+      <picker mode="selector" range="{{siblingsOptions}}" bindchange="setSiblingsFilter">
+        <view class="picker-show">
+          <text>{{selectedSiblings || '请选择兄弟情况'}}</text>
+          <text class="arrow">›</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 学历 -->
+    <view class="filter-group">
+      <view class="filter-label">学历</view>
+      <picker mode="selector" range="{{educationOptions}}" bindchange="setEducationFilter">
+        <view class="picker-show">
+          <text>{{selectedEducation || '请选择学历'}}</text>
+          <text class="arrow">›</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 收入 -->
+    <view class="filter-group">
+      <view class="filter-label">收入</view>
+      <picker mode="selector" range="{{incomeOptions}}" bindchange="setIncomeFilter">
+        <view class="picker-show">
+          <text>{{selectedIncome || '请选择收入范围'}}</text>
+          <text class="arrow">›</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 婚姻状况 -->
+    <view class="filter-group">
+      <view class="filter-label">婚姻状况</view>
+      <picker mode="selector" range="{{maritalStatusOptions}}" bindchange="setMaritalStatusFilter">
+        <view class="picker-show">
+          <text>{{selectedMaritalStatus || '请选择婚姻状况'}}</text>
+          <text class="arrow">›</text>
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="filter-actions">
+    <button class="btn-reset" bindtap="resetFilters">重置条件</button>
+    <button class="btn-confirm" bindtap="applyFilters">确认筛选</button>
+  </view>
+
+  <!-- 筛选结果 -->
+  <view class="filter-results" wx:if="{{showResults}}">
+    <view class="results-header">
+      <text>筛选结果 ({{filteredMembers.length}}人)</text>
+      <text class="clear-results" bindtap="clearResults">清除结果</text>
+    </view>
+    
+    <scroll-view scroll-y class="results-list">
+      <view class="member-item" wx:for="{{filteredMembers}}" wx:key="id" bindtap="viewMemberDetail" data-id="{{item.id}}">
+        <view class="member-info">
+          <text class="member-name">{{item.name}}</text>
+          <text class="member-gender">{{item.gender}}</text>
+          <text class="member-age">{{item.age}}岁</text>
+        </view>
+        <view class="member-details">
+          <text class="member-occupation">{{item.occupation}}</text>
+          <text class="member-height">{{item.height}}cm</text>
+        </view>
+      </view>
+      
+      <view class="no-results" wx:if="{{filteredMembers.length === 0}}">
+        <text>暂无符合条件的会员</text>
+      </view>
+    </scroll-view>
+  </view>
+</view>

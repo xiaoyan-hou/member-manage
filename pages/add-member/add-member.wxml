@@ -2,6 +2,12 @@
 <view class="container">
   <form bindsubmit="formSubmit" bindreset="formReset">
     <view class="form-group">
+      <!-- 会员编号 -->
+      <view class="form-item">
+        <text class="label">会员编号</text>
+        <input class="input" name="memberId" placeholder="请输入会员编号" bindinput="bindInputChange" data-field="memberId" value="{{formData.memberId}}" />
+      </view>
+      
       <view class="form-item">
         <text class="label">姓名</text>
         <input class="input" name="name" placeholder="请输入姓名" bindinput="bindInputChange" data-field="name" value="{{formData.name}}" />
@@ -18,7 +24,7 @@
 
       <view class="form-item">
         <text class="label">出生年份</text>
-        <picker mode="date" fields="year" bindchange="bindPickerChange" data-field="birthYear">
+        <picker mode="date" fields="year" value="{{formData.birthYear || '1998'}}" bindchange="bindPickerChange" data-field="birthYear">
            <view class="picker">
             {{formData.birthYear ? formData.birthYear : '请选择出生年份'}}
           </view>

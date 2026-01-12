@@ -1,0 +1,153 @@
+/**pages/members/members.wxss**/
+/* 会员列表页面样式 */
+
+.stats-container {
+  display: flex;
+  justify-content: space-around;
+  background: white;
+  padding: 30rpx;
+  border-radius: 16rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+}
+
+.stat-item {
+  text-align: center;
+  flex: 1;
+}
+
+.stat-number {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #667eea;
+  display: block;
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #666;
+  margin-top: 8rpx;
+  display: block;
+}
+
+.member-card {
+  background: white;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+}
+
+.member-card:active {
+  transform: scale(0.98);
+}
+
+.member-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.member-name {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.member-gender {
+  padding: 8rpx 20rpx;
+  border-radius: 20rpx;
+  font-size: 22rpx;
+  font-weight: 500;
+}
+
+.member-gender.male {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.member-gender.female {
+  background: #fce4ec;
+  color: #c2185b;
+}
+
+.member-info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.member-info-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.member-info-label {
+  font-size: 24rpx;
+  color: #888;
+  margin-bottom: 4rpx;
+}
+
+.member-info-value {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
+}
+
+.member-requirements {
+  background: #f8f9ff;
+  padding: 20rpx;
+  border-radius: 12rpx;
+  margin-top: 20rpx;
+  font-size: 26rpx;
+  line-height: 1.5;
+}
+
+.member-requirements .label {
+  color: #667eea;
+  font-weight: 500;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 20rpx;
+}
+
+.action-buttons .btn {
+  flex: 1;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 100rpx 40rpx;
+  color: #888;
+}
+
+.empty-icon {
+  font-size: 80rpx;
+  margin-bottom: 20rpx;
+  color: #ccc;
+}
+
+.empty-title {
+  font-size: 32rpx;
+  margin-bottom: 16rpx;
+  color: #666;
+}
+
+.empty-desc {
+  font-size: 26rpx;
+  color: #999;
+}
+
+.load-more {
+  text-align: center;
+  padding: 40rpx;
+  color: #999;
+  font-size: 26rpx;
+}

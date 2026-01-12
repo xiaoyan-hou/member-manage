@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>相亲会员管理系统</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>会员管理系统</h1>
+            <nav>
+                <button id="addMemberBtn" class="nav-btn">添加会员</button>
+                <button id="viewMembersBtn" class="nav-btn">会员列表</button>
+                <button id="filterMembersBtn" class="nav-btn">筛选会员</button>
+            </nav>
+        </header>
+
+        <main>
+            <!-- 添加会员表单 -->
+            <section id="addMemberSection" class="section">
+                <h2>添加新会员</h2>
+                <form id="memberForm" class="member-form">
+                    <div class="form-group">
+                        <label for="name">姓名：</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="gender">性别：</label>
+                        <select id="gender" required>
+                            <option value="">请选择</option>
+                            <option value="男">男</option>
+                            <option value="女">女</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="age">年龄：</label>
+                        <input type="number" id="age" min="18" max="80" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">联系电话：</label>
+                        <input type="tel" id="phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="occupation">职业：</label>
+                        <input type="text" id="occupation" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="income">月收入（元）：</label>
+                        <select id="income" required>
+                            <option value="">请选择</option>
+                            <option value="3000以下">3000以下</option>
+                            <option value="3000-5000">3000-5000</option>
+                            <option value="5000-8000">5000-8000</option>
+                            <option value="8000-12000">8000-12000</option>
+                            <option value="12000-20000">12000-20000</option>
+                            <option value="20000以上">20000以上</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="education">学历：</label>
+                        <select id="education" required>
+                            <option value="">请选择</option>
+                            <option value="高中及以下">高中及以下</option>
+                            <option value="大专">大专</option>
+                            <option value="本科">本科</option>
+                            <option value="硕士">硕士</option>
+                            <option value="博士">博士</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="height">身高（cm）：</label>
+                        <input type="number" id="height" min="140" max="220">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="maritalStatus">婚姻状况：</label>
+                        <select id="maritalStatus" required>
+                            <option value="">请选择</option>
+                            <option value="未婚">未婚</option>
+                            <option value="离异">离异</option>
+                            <option value="丧偶">丧偶</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="requirements">择偶要求：</label>
+                        <textarea id="requirements" rows="3" placeholder="描述对另一半的要求，如年龄范围、性格、兴趣爱好等"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="hobbies">兴趣爱好：</label>
+                        <textarea id="hobbies" rows="2" placeholder="个人兴趣爱好"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="selfIntroduction">自我介绍：</label>
+                        <textarea id="selfIntroduction" rows="3" placeholder="简短的个人介绍"></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">保存会员信息</button>
+                        <button type="reset" class="btn btn-secondary">重置</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- 会员列表 -->
+            <section id="membersListSection" class="section" style="display: none;">
+                <h2>会员列表</h2>
+                <div class="members-stats">
+                    <span>总会员数：<strong id="totalMembers">0</strong></span>
+                    <span>男性：<strong id="maleCount">0</strong></span>
+                    <span>女性：<strong id="femaleCount">0</strong></span>
+                </div>
+                <div id="membersList" class="members-list"></div>
+            </section>
+
+            <!-- 筛选会员 -->
+            <section id="filterSection" class="section" style="display: none;">
+                <h2>筛选会员</h2>
+                <form id="filterForm" class="filter-form">
+                    <div class="filter-group">
+                        <label for="filterGender">性别：</label>
+                        <select id="filterGender">
+                            <option value="">不限</option>
+                            <option value="男">男</option>
+                            <option value="女">女</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="filterAgeMin">最小年龄：</label>
+                        <input type="number" id="filterAgeMin" min="18" max="80">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="filterAgeMax">最大年龄：</label>
+                        <input type="number" id="filterAgeMax" min="18" max="80">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="filterIncome">收入要求：</label>
+                        <select id="filterIncome">
+                            <option value="">不限</option>
+                            <option value="3000以下">3000以下</option>
+                            <option value="3000-5000">3000-5000</option>
+                            <option value="5000-8000">5000-8000</option>
+                            <option value="8000-12000">8000-12000</option>
+                            <option value="12000-20000">12000-20000</option>
+                            <option value="20000以上">20000以上</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="filterEducation">学历要求：</label>
+                        <select id="filterEducation">
+                            <option value="">不限</option>
+                            <option value="高中及以下">高中及以下</option>
+                            <option value="大专">大专</option>
+                            <option value="本科">本科</option>
+                            <option value="硕士">硕士</option>
+                            <option value="博士">博士</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="filterMaritalStatus">婚姻状况：</label>
+                        <select id="filterMaritalStatus">
+                            <option value="">不限</option>
+                            <option value="未婚">未婚</option>
+                            <option value="离异">离异</option>
+                            <option value="丧偶">丧偶</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-actions">
+                        <button type="submit" class="btn btn-primary">开始筛选</button>
+                        <button type="reset" class="btn btn-secondary">重置条件</button>
+                    </div>
+                </form>
+                
+                <div id="filterResults" class="filter-results" style="display: none;">
+                    <h3>筛选结果</h3>
+                    <div id="filterResultsList" class="members-list"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- 会员详情模态框 -->
+    <div id="memberModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="memberDetails"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

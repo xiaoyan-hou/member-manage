@@ -1,0 +1,38 @@
+{
+  "pages": [
+    "pages/members/members",
+    "pages/add-member/add-member",
+    "pages/filter/filter",
+    "pages/member-detail/member-detail"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#667eea",
+    "navigationBarTitleText": "会员管理",
+    "navigationBarTextStyle": "white",
+    "enablePullDownRefresh": true
+  },
+  "tabBar": {
+    "color": "#999",
+    "selectedColor": "#667eea",
+    "backgroundColor": "#fff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/members/members",
+        "text": "会员列表"
+      },
+      {
+        "pagePath": "pages/add-member/add-member",
+        "text": "添加会员"
+      },
+      {
+        "pagePath": "pages/filter/filter",
+        "text": "筛选会员"
+        
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

@@ -1,0 +1,125 @@
+<!--pages/add-member/add-member.wxml-->
+<view class="container">
+  <form bindsubmit="formSubmit" bindreset="formReset">
+    <view class="form-group">
+      <view class="form-item">
+        <text class="label">姓名</text>
+        <input class="input" name="name" placeholder="请输入姓名" bindinput="bindInputChange" data-field="name" value="{{formData.name}}" />
+      </view>
+
+      <view class="form-item">
+        <text class="label">性别</text>
+        <picker mode="selector" range="{{genderOptions}}" bindchange="bindPickerChange" data-field="gender">
+          <view class="picker">
+            {{formData.gender ? formData.gender : '请选择性别'}}
+          </view>
+        </picker>
+      </view>
+
+      <view class="form-item">
+        <text class="label">出生年份</text>
+        <picker mode="date" fields="year" bindchange="bindPickerChange" data-field="birthYear">
+           <view class="picker">
+            {{formData.birthYear ? formData.birthYear : '请选择出生年份'}}
+          </view>
+        </picker>
+      </view>
+
+      <view class="form-item">
+        <text class="label">年龄</text>
+        <input class="input" name="age" type="number" placeholder="请输入年龄" bindinput="bindInputChange" data-field="age" value="{{formData.age}}" />
+      </view>
+
+      <view class="form-item">
+        <text class="label">属相</text>
+        <picker mode="selector" range="{{zodiacOptions}}" bindchange="bindPickerChange" data-field="zodiac">
+          <view class="picker">
+            {{formData.zodiac ? formData.zodiac : '请选择属相'}}
+          </view>
+        </picker>
+      </view>
+
+      <view class="form-item">
+        <text class="label">联系电话</text>
+        <input class="input" name="phone" type="number" placeholder="请输入手机号" bindinput="bindInputChange" data-field="phone" value="{{formData.phone}}" />
+      </view>
+    </view>
+
+    <view class="form-group">
+      <view class="form-item">
+        <text class="label">身高(cm)</text>
+        <input class="input" name="height" type="number" placeholder="请输入身高" bindinput="bindInputChange" data-field="height" value="{{formData.height}}" />
+      </view>
+
+      <view class="form-item">
+        <text class="label">体重(kg)</text>
+        <input class="input" name="weight" type="number" placeholder="请输入体重（选填）" bindinput="bindInputChange" data-field="weight" value="{{formData.weight}}" />
+      </view>
+
+      <view class="form-item">
+        <text class="label">学历</text>
+        <picker mode="selector" range="{{educationOptions}}" bindchange="bindPickerChange" data-field="education">
+          <view class="picker">
+            {{formData.education ? formData.education : '请选择学历'}}
+          </view>
+        </picker>
+      </view>
+
+      <view class="form-item">
+        <text class="label">职业</text>
+        <input class="input" name="occupation" placeholder="请输入职业" bindinput="bindInputChange" data-field="occupation" value="{{formData.occupation}}" />
+      </view>
+
+      <view class="form-item">
+        <text class="label">收入(年薪)</text>
+        <picker mode="selector" range="{{incomeOptions}}" bindchange="bindPickerChange" data-field="income">
+          <view class="picker">
+            {{formData.income ? formData.income : '请选择收入情况'}}
+          </view>
+        </picker>
+      </view>
+
+      <view class="form-item">
+        <text class="label">房子情况</text>
+        <input class="input" name="house" placeholder="请输入房子情况" bindinput="bindInputChange" data-field="house" value="{{formData.house}}" />
+      </view>
+
+      <view class="form-item">
+        <text class="label">车子情况</text>
+        <input class="input" name="car" placeholder="请输入车子情况" bindinput="bindInputChange" data-field="car" value="{{formData.car}}" />
+      </view>
+
+      <view class="form-item">
+        <text class="label">婚史</text>
+        <picker mode="selector" range="{{maritalStatusOptions}}" bindchange="bindPickerChange" data-field="maritalStatus">
+          <view class="picker">
+            {{formData.maritalStatus ? formData.maritalStatus : '请选择婚史'}}
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="form-group-block">
+      <view class="form-item">
+        <text class="label">兄弟情况</text>
+        <picker mode="selector" range="{{siblingsOptions}}" bindchange="bindPickerChange" data-field="siblings">
+          <view class="picker">
+            {{formData.siblings ? formData.siblings : '请选择兄弟情况'}}
+          </view>
+        </picker>
+      </view>
+
+      <view class="form-item-block">
+        <text class="label-block">家庭成员描述</text>
+        <textarea class="textarea" name="family" placeholder="请输入家庭成员描述" bindinput="bindInputChange" data-field="family" value="{{formData.family}}" auto-height />
+      </view>
+
+      <view class="form-item-block">
+        <text class="label-block">择偶条件</text>
+        <textarea class="textarea" name="requirements" placeholder="请输入择偶条件" bindinput="bindInputChange" data-field="requirements" value="{{formData.requirements}}" auto-height />
+      </view>
+    </view>
+
+    <button type="primary" form-type="submit" class="submit-btn">保存会员信息</button>
+  </form>
+</view>

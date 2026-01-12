@@ -1,0 +1,76 @@
+<!--pages/members/members.wxml-->
+<view class="container">
+  <!-- 统计信息 -->
+  <view class="stats-container">
+    <view class="stat-item">
+      <text class="stat-number">{{totalMembers}}</text>
+      <text class="stat-label">总会员</text>
+    </view>
+    <view class="stat-item">
+      <text class="stat-number">{{maleCount}}</text>
+      <text class="stat-label">男性</text>
+    </view>
+    <view class="stat-item">
+      <text class="stat-number">{{femaleCount}}</text>
+      <text class="stat-label">女性</text>
+    </view>
+  </view>
+
+  <!-- 会员列表 -->
+  <view wx:if="{{members.length > 0}}">
+    <view wx:for="{{members}}" wx:key="id" class="member-card" bindtap="showMemberDetail" data-id="{{item.id}}">
+      <view class="member-header">
+        <text class="member-name">{{item.name}}</text>
+        <text class="member-gender {{item.gender === '男' ? 'male' : 'female'}}">{{item.gender}}</text>
+      </view>
+      
+      <view class="member-info">
+        <view class="member-info-item">
+          <text class="member-info-label">年龄</text>
+          <text class="member-info-value">{{item.age}}岁</text>
+        </view>
+        <view class="member-info-item">
+          <text class="member-info-label">身高</text>
+          <text class="member-info-value">{{item.height ? item.height + 'cm' : '未填写'}}</text>
+        </view>
+        <view class="member-info-item">
+          <text class="member-info-label">职业</text>
+          <text class="member-info-value">{{item.occupation}}</text>
+        </view>
+        <view class="member-info-item">
+          <text class="member-info-label">收入</text>
+          <text class="member-info-value">{{item.income}}</text>
+        </view>
+        <view class="member-info-item">
+          <text class="member-info-label">学历</text>
+          <text class="member-info-value">{{item.education}}</text>
+        </view>
+        <view class="member-info-item">
+          <text class="member-info-label">婚姻</text>
+          <text class="member-info-value">{{item.maritalStatus}}</text>
+        </view>
+      </view>
+      
+      <view wx:if="{{item.requirements}}" class="member-requirements">
+        <text class="label">择偶要求：</text>{{item.requirements}}
+      </view>
+      
+      <view class="action-buttons">
+        <button class="btn btn-secondary btn-small" bindtap="editMember" data-id="{{item.id}}" catchtap="true">编辑</button>
+        <button class="btn btn-danger btn-small" bindtap="deleteMember" data-id="{{item.id}}" catchtap="true">删除</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:else class="empty-state">
+    <text class="empty-icon">👥</text>
+    <view class="empty-title">暂无会员信息</view>
+    <view class="empty-desc">点击下方"添加会员"开始录入</view>
+  </view>
+</view>
+
+<!-- 加载更多 -->
+<view class="load-more" wx:if="{{hasMore}}">
+  <text>加载中...</text>
+</view>

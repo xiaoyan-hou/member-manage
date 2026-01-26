@@ -1,0 +1,8 @@
+<!-- test.wxml -->
+<view class="container">
+  <text class="title">数据库ID匹配测试</text>
+  
+  <view class="test-result">
+    <text>{{testResult}}</text>
+  </view>
+</view>

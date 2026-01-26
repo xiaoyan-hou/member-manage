@@ -47,7 +47,7 @@
 
 /* 筛选组 */
 .filter-group {
-  margin-bottom: 30rpx;
+  margin-bottom: 20rpx;
 }
 
 .filter-group:last-child {
@@ -55,9 +55,9 @@
 }
 
 .filter-label {
-  font-size: 28rpx;
+  font-size: 26rpx;
   color: #666;
-  margin-bottom: 15rpx;
+  margin-bottom: 10rpx;
   display: block;
 }
 
@@ -71,18 +71,18 @@
 
 .range-input {
   flex: 1;
-  height: 70rpx;
+  height: 60rpx;
   border: 2rpx solid #e0e0e0;
-  border-radius: 8rpx;
-  padding: 0 20rpx;
-  font-size: 28rpx;
+  border-radius: 6rpx;
+  padding: 0 16rpx;
+  font-size: 26rpx;
   text-align: center;
 }
 
 .range-separator {
-  margin: 0 20rpx;
+  margin: 0 12rpx;
   color: #999;
-  font-size: 28rpx;
+  font-size: 26rpx;
 }
 
 /* 选择器显示 */
@@ -91,48 +91,48 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  height: 70rpx;
+  height: 60rpx;
   border: 2rpx solid #e0e0e0;
-  border-radius: 8rpx;
-  padding: 0 20rpx;
+  border-radius: 6rpx;
+  padding: 0 16rpx;
   background-color: #fff;
 }
 
 .picker-show text:first-child {
-  font-size: 28rpx;
+  font-size: 26rpx;
   color: #333;
 }
 
 .arrow {
-  font-size: 32rpx;
+  font-size: 28rpx;
   color: #999;
 }
 
 /* 输入框 */
 .filter-input {
   width: 100%;
-  height: 70rpx;
+  height: 60rpx;
   border: 2rpx solid #e0e0e0;
-  border-radius: 8rpx;
-  padding: 0 20rpx;
-  font-size: 28rpx;
+  border-radius: 6rpx;
+  padding: 0 16rpx;
+  font-size: 26rpx;
 }
 
 /* 操作按钮 */
 .filter-actions {
   display: flex;
   flex-direction: row;
-  padding: 30rpx;
+  padding: 20rpx;
   background-color: #fff;
-  margin-bottom: 20rpx;
+  margin-bottom: 16rpx;
 }
 
 .btn-reset, .btn-confirm {
   flex: 1;
-  height: 80rpx;
-  border-radius: 8rpx;
-  font-size: 30rpx;
-  margin: 0 10rpx;
+  height: 70rpx;
+  border-radius: 6rpx;
+  font-size: 28rpx;
+  margin: 0 8rpx;
 }
 
 .btn-reset {
@@ -150,8 +150,8 @@
 /* 筛选结果 */
 .filter-results {
   background-color: #fff;
-  margin: 0 20rpx;
-  border-radius: 16rpx;
+  margin: 0 16rpx;
+  border-radius: 12rpx;
 }
 
 .results-header {
@@ -159,30 +159,30 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 30rpx;
+  padding: 20rpx;
   border-bottom: 2rpx solid #f0f0f0;
 }
 
 .results-header text:first-child {
-  font-size: 32rpx;
+  font-size: 28rpx;
   font-weight: 500;
   color: #333;
 }
 
 .clear-results {
-  font-size: 28rpx;
+  font-size: 26rpx;
   color: #07c160;
 }
 
 .results-list {
   max-height: 600rpx;
-  padding: 0 20rpx;
+  padding: 0 16rpx;
 }
 
 .member-item {
   display: flex;
   flex-direction: column;
-  padding: 30rpx 0;
+  padding: 20rpx 0;
   border-bottom: 2rpx solid #f0f0f0;
 }
 
@@ -194,24 +194,24 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-bottom: 10rpx;
+  margin-bottom: 6rpx;
 }
 
 .member-name {
-  font-size: 32rpx;
+  font-size: 28rpx;
   font-weight: 500;
   color: #333;
-  margin-right: 20rpx;
+  margin-right: 16rpx;
 }
 
 .member-gender {
-  font-size: 28rpx;
+  font-size: 24rpx;
   color: #666;
-  margin-right: 20rpx;
+  margin-right: 16rpx;
 }
 
 .member-age {
-  font-size: 28rpx;
+  font-size: 24rpx;
   color: #666;
 }
 
@@ -222,22 +222,22 @@
 }
 
 .member-occupation {
-  font-size: 28rpx;
+  font-size: 24rpx;
   color: #999;
-  margin-right: 20rpx;
+  margin-right: 16rpx;
 }
 
 .member-height {
-  font-size: 28rpx;
+  font-size: 24rpx;
   color: #999;
 }
 
 .no-results {
-  padding: 60rpx 0;
+  padding: 40rpx 0;
   text-align: center;
 }
 
 .no-results text {
-  font-size: 28rpx;
+  font-size: 26rpx;
   color: #999;
 }

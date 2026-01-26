@@ -26,12 +26,21 @@
       
       <view class="member-info">
         <view class="member-info-item">
+          <text class="member-info-label">会员编号</text>
+          <text class="member-info-value">{{item.memberId || '未填写'}}</text>
+        </view>
+        <view class="member-info-item">
           <text class="member-info-label">年龄</text>
           <text class="member-info-value">{{item.age}}岁</text>
         </view>
         <view class="member-info-item">
           <text class="member-info-label">身高</text>
           <text class="member-info-value">{{item.height ? item.height + 'cm' : '未填写'}}</text>
+        </view>
+
+        <view class="member-info-item">
+          <text class="member-info-label">联系电话</text>
+          <text class="member-info-value">{{item.phone || '未填写'}}</text>
         </view>
         <view class="member-info-item">
           <text class="member-info-label">职业</text>

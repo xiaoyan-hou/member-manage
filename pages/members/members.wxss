@@ -77,8 +77,15 @@
 .member-info {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20rpx;
+  gap: 16rpx;
   margin-bottom: 20rpx;
+}
+
+/* 对于包含更多字段的会员信息，可考虑在较大屏幕上显示更多列 */
+@media screen and (min-width: 768px) {
+  .member-info {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .member-info-item {

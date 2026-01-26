@@ -3,7 +3,8 @@
     "pages/members/members",
     "pages/add-member/add-member",
     "pages/filter/filter",
-    "pages/member-detail/member-detail"
+    "pages/member-detail/member-detail",
+    "pages/test/test"
   ],
   "window": {
     "backgroundTextStyle": "light",

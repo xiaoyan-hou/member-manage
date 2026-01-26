@@ -25,7 +25,7 @@
       <view class="form-item">
         <text class="label">出生年份</text>
         <picker mode="date" fields="year" value="{{formData.birthYear || '1998'}}" bindchange="bindPickerChange" data-field="birthYear">
-           <view class="picker">
+          <view class="picker">
             {{formData.birthYear ? formData.birthYear : '请选择出生年份'}}
           </view>
         </picker>
@@ -33,16 +33,16 @@
 
       <view class="form-item">
         <text class="label">年龄</text>
-        <input class="input" name="age" type="number" placeholder="请输入年龄" bindinput="bindInputChange" data-field="age" value="{{formData.age}}" />
+        <view class="picker">
+          {{formData.age ? formData.age : '请先选择出生年份'}}
+        </view>
       </view>
 
       <view class="form-item">
         <text class="label">属相</text>
-        <picker mode="selector" range="{{zodiacOptions}}" bindchange="bindPickerChange" data-field="zodiac">
-          <view class="picker">
-            {{formData.zodiac ? formData.zodiac : '请选择属相'}}
-          </view>
-        </picker>
+        <view class="picker">
+          {{formData.zodiac ? formData.zodiac : '请先选择出生年份'}}
+        </view>
       </view>
 
       <view class="form-item">
@@ -77,7 +77,7 @@
       </view>
 
       <view class="form-item">
-        <text class="label">收入(年薪)</text>
+        <text class="label">收入</text>
         <picker mode="selector" range="{{incomeOptions}}" bindchange="bindPickerChange" data-field="income">
           <view class="picker">
             {{formData.income ? formData.income : '请选择收入情况'}}

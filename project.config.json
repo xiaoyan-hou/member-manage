@@ -11,7 +11,17 @@
       "disablePlugins": [],
       "outputPath": ""
     },
-    "useCompilerPlugins": false
+    "useCompilerPlugins": false,
+    "compileWorklet": false,
+    "uploadWithSourceMap": true,
+    "packNpmManually": false,
+    "minifyWXSS": true,
+    "minifyWXML": true,
+    "localPlugins": false,
+    "disableUseStrict": false,
+    "condition": false,
+    "swc": false,
+    "disableSWC": true
   },
   "compileType": "miniprogram",
   "simulatorPluginLibVersion": {},
@@ -19,6 +29,8 @@
     "ignore": [],
     "include": []
   },
-  "appid": "touristappid",
-  "editorSetting": {}
+  "appid": "wxd8544d7779f67e45",
+  "editorSetting": {},
+  "libVersion": "3.13.2",
+  "cloudfunctionTemplateRoot": "cloudfunctionTemplate/"
 }

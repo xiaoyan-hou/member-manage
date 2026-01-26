@@ -7,8 +7,19 @@ App({
       // 如果没有数据，设置初始数据
       wx.setStorageSync('datingMembers', []);
     }
-    
     console.log('相亲会员管理系统启动成功');
+
+    // 初始化云开发
+    if (!wx.cloud) {
+      console.error('小程序基础库版本过低，暂不支持云开发');
+    } else {
+      wx.cloud.init({
+        env: "cloud1-1gbe0trm2692749a", // 当前的云开发环境 ID
+        traceUser: true,
+      });
+      console.log('云开发初始化成功');
+    }
+
   },
   
   globalData: {
@@ -16,7 +27,7 @@ App({
   },
   
   // 工具函数：生成唯一ID
-  generateId() {
+  async generateId() {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
   },
   
@@ -98,5 +109,53 @@ App({
       
       return true;
     });
+  },
+
+  // 新增：保存会员信息到云数据库
+  async saveMemberToCloud(memberData) {
+    try {
+      // 使用云开发的数据库API
+      const db = wx.cloud.database();
+      
+      // 插入数据到member表
+      const result = await wx.cloud.callFunction({
+        name: 'addMember', // 调用云函数进行数据库操作
+        data: memberData
+      });
+
+      return result;
+    } catch (error) {
+      console.error('保存会员信息到云数据库失败:', error);
+      return { success: false, error: error.message };
+    }
+  },
+
+  // 使用 CloudBase SDK 的方法（如果需要）
+  async saveMemberWithSDK(memberData) {
+    try {
+      const { init } = require("@cloudbase/wx-cloud-client-sdk");
+      const client = init(wx.cloud);
+
+      // 连接数据库
+      const db = client.database();
+
+      // 准备要插入的数据，移除可能不被接受的字段名
+      const { ...restData } = memberData;
+      const finalData = {
+        ...restData,
+        // openid: _openid || wx.getStorageSync('openid') || '' // 使用 'openid' 而不是 '_openid'
+      };
+
+      // 插入数据
+      const result = await db.collection('member').add({
+        data: finalData
+      });
+
+      // console.log('数据插入成功:', result);
+      return { success: true, data: result };
+    } catch (error) {
+      console.error('使用SDK保存会员信息失败:', error);
+      return { success: false, error: error.message };
+    }
   }
 })

@@ -1,2 +1,76 @@
 <!--pages/member-detail/member-detail.wxml-->
-<text>pages/member-detail/member-detail.wxml</text>
+<view class="container">
+  <view class="member-detail-card">
+    <view class="member-header">
+      <text class="member-name">{{member.name}}</text>
+      <text class="member-gender {{member.gender === '男' ? 'male' : 'female'}}">{{member.gender}}</text>
+    </view>
+    
+    <view class="member-info-section">
+      <view class="info-row">
+        <text class="info-label">年龄</text>
+        <text class="info-value">{{member.age}}岁</text>
+      </view>
+      
+      <view class="info-row">
+        <text class="info-label">联系电话</text>
+        <text class="info-value">{{member.phone}}</text>
+      </view>
+      
+      <view class="info-row">
+        <text class="info-label">职业</text>
+        <text class="info-value">{{member.occupation}}</text>
+      </view>
+      
+      <view class="info-row">
+        <text class="info-label">收入</text>
+        <text class="info-value">{{member.income}}</text>
+      </view>
+      
+      <view class="info-row">
+        <text class="info-label">教育程度</text>
+        <text class="info-value">{{member.education}}</text>
+      </view>
+      
+      <view class="info-row">
+        <text class="info-label">身高</text>
+        <text class="info-value">{{member.height ? member.height + 'cm' : '未填写'}}</text>
+      </view>
+      
+      <view class="info-row">
+        <text class="info-label">婚姻状况</text>
+        <text class="info-value">{{member.maritalStatus}}</text>
+      </view>
+      
+      <view class="info-row" wx:if="{{member.memberId}}">
+        <text class="info-label">会员编号</text>
+        <text class="info-value">{{member.memberId}}</text>
+      </view>
+      
+      <view class="info-row" wx:if="{{member.birthYear}}">
+        <text class="info-label">出生年份</text>
+        <text class="info-value">{{member.birthYear}}年</text>
+      </view>
+    </view>
+    
+    <view class="member-description" wx:if="{{member.requirements}}">
+      <text class="description-label">择偶要求</text>
+      <text class="description-content">{{member.requirements}}</text>
+    </view>
+    
+    <view class="member-description" wx:if="{{member.hobbies}}">
+      <text class="description-label">兴趣爱好</text>
+      <text class="description-content">{{member.hobbies}}</text>
+    </view>
+    
+    <view class="member-description" wx:if="{{member.selfIntroduction}}">
+      <text class="description-label">自我介绍</text>
+      <text class="description-content">{{member.selfIntroduction}}</text>
+    </view>
+  </view>
+  
+  <view class="action-buttons">
+    <button class="btn btn-secondary" bindtap="editMember">编辑信息</button>
+    <button class="btn btn-danger" bindtap="deleteMember">删除会员</button>
+  </view>
+</view>

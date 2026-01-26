@@ -1,345 +1,466 @@
 // pages/add-member/add-member.js
-Page({
+const app = getApp();
 
-  /**
-   * 页面的初始数据
-   */
+Page({
   data: {
-    genderOptions: ['男', '女'],
-    educationOptions: ['初中及以下', '高中', '中专', '大专', '本科', '硕士', '博士'],
-    maritalStatusOptions: ['未婚', '离异', '丧偶'],
-    zodiacOptions: ['鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪'],
-    incomeOptions: ['5万以下', '5-10万', '10-15万', '15-20万', '20-30万', '30-50万', '50-100万', '100万以上'],
-    genderArray: ['男', '女'],
-    genderIndex: 0,
-    educationArray: ['初中及以下', '高中', '中专', '大专', '本科', '硕士', '博士'],
-    educationIndex: 0,
-    maritalStatusArray: ['未婚', '离异', '丧偶'],
-    maritalStatusIndex: 0,
-    zodiacArray: ['鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪'],
-    zodiacIndex: 0,
-    incomeArray: ['5千以下', '5千-1万', '1-1.5万', '1.5-2万', '2-3万', '3-5万', '5万以上'],
-    incomeIndex: 0,
-    siblingsOptions: ['一个哥哥', '一个弟弟', '没有兄弟', '其他情况'],
-    
     formData: {
-      id: '',
+      memberId: '',
       name: '',
       gender: '',
-      age: '',
-      birthYear: '',
-      zodiac: '',
-      height: '',
-      weight: '',
-      education: '',
+      birthYear: '1998', // 默认1998年
+      age: '25', // 根据出生年份计算
+      phone: '',
       occupation: '',
       income: '',
-      house: '',
-      car: '',
-      phone: '',
-      siblings: '',
-      family: '',
+      education: '',
+      height: '',
       maritalStatus: '',
       requirements: '',
-      contact: ''
+      hobbies: '',
+      selfIntroduction: '',
+      zodiac: '', // 属相
+      house: '', // 房子情况
+      car: '', // 车子情况
+      siblings: '' // 兄弟情况
+    },
+    // 选项数组
+    genderOptions: ['男', '女'],
+    zodiacOptions: ['鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪'],
+    incomeOptions: [
+      '2000元以下', '2000-5000元', '5000-8000元', 
+      '8000-12000元', '12000-20000元', '20000元以上'
+    ],
+    educationOptions: [
+      '初中及以下', '高中/中专', '大专', 
+      '本科', '硕士', '博士及以上'
+    ],
+    maritalStatusOptions: ['未婚', '已婚', '离异', '丧偶'],
+    siblingsOptions: ['独生子女', '一个弟弟', '一个哥哥', '没有兄弟', '其他情况'],
+
+    currentMemberId: null, // 当前正在编辑的会员ID
+    isEditing: false // 是否处于编辑模式
+  },
+
+  onLoad(options) {
+    // 如果有传递过来的ID，则进入编辑模式
+    const id = options.id;
+    if (id) {
+      this.setData({
+        currentMemberId: id,
+        isEditing: true
+      });
+      this.loadMemberData(id); // 加载会员数据
+    } else {
+      // 新增模式下，默认设置出生年份为1998
+      const defaultBirthYear = '1998';
+      const defaultAge = this.calculateAge(defaultBirthYear);
+      const defaultZodiac = this.getZodiacByYear(defaultBirthYear);
+      
+      this.setData({
+        'formData.birthYear': defaultBirthYear,
+        'formData.age': defaultAge,
+        'formData.zodiac': defaultZodiac
+      });
     }
   },
 
-  /**
-   * 处理输入框变化
-   */
+  // 加载会员数据用于编辑
+  async loadMemberData(id) {
+    try {
+      // 从云数据库获取会员数据 - 使用where查询自定义id字段
+      console.log('load member data：', id);
+      const db = wx.cloud.database();
+      const result = await db.collection('member').where({
+        id: id
+      }).get();
+      
+      // 由于where查询返回的是数组，我们需要取第一个元素
+      const member = result && result.data && result.data.length > 0 ? result.data[0] : null;
+      
+      if (member) {
+        // 计算年龄（如果birthYear存在）
+        let age = member.age || '';
+        if (member.birthYear) {
+          age = this.calculateAge(member.birthYear);
+        }
+        
+        // 设置性别索引
+        let genderIndex = this.data.genderOptions.indexOf(member.gender || '');
+        
+        // 设置收入索引
+        let incomeIndex = this.data.incomeOptions.indexOf(member.income || '');
+        
+        // 设置教育程度索引
+        let educationIndex = this.data.educationOptions.indexOf(member.education || '');
+        
+        // 设置婚姻状况索引
+        let maritalStatusIndex = this.data.maritalStatusOptions.indexOf(member.maritalStatus || '');
+        
+        // 设置属相索引
+        let zodiacIndex = this.data.zodiacOptions.indexOf(member.zodiac || '');
+        
+        // 设置兄弟情况索引
+        let siblingsIndex = this.data.siblingsOptions.indexOf(member.siblings || '');
+        
+        const formData = {
+          memberId: member.memberId || '',
+          name: member.name || '',
+          gender: member.gender || '',
+          birthYear: member.birthYear || '1998',
+          age: age,
+          phone: member.phone || '',
+          occupation: member.occupation || '',
+          income: member.income || '',
+          education: member.education || '',
+          height: member.height || '',
+          maritalStatus: member.maritalStatus || '',
+          requirements: member.requirements || '',
+          hobbies: member.hobbies || '',
+          selfIntroduction: member.selfIntroduction || '',
+          zodiac: member.zodiac || '',
+          house: member.house || '',
+          car: member.car || '',
+          siblings: member.siblings || ''
+        };
+        
+        this.setData({
+          formData
+        });
+      } else {
+        // 如果云数据库获取失败，尝试从本地获取
+        const app = getApp();
+        const localMember = app.getMemberById(id);
+        if (localMember) {
+          // 计算年龄
+          let age = localMember.age || '';
+          if (localMember.birthYear) {
+            age = this.calculateAge(localMember.birthYear);
+          }
+          
+          // 设置性别索引
+          let genderIndex = this.data.genderOptions.indexOf(localMember.gender || '');
+          
+          // 设置收入索引
+          let incomeIndex = this.data.incomeOptions.indexOf(localMember.income || '');
+          
+          // 设置教育程度索引
+          let educationIndex = this.data.educationOptions.indexOf(localMember.education || '');
+          
+          // 设置婚姻状况索引
+          let maritalStatusIndex = this.data.maritalStatusOptions.indexOf(localMember.maritalStatus || '');
+          
+          // 设置属相索引
+          let zodiacIndex = this.data.zodiacOptions.indexOf(localMember.zodiac || '');
+          
+          // 设置兄弟情况索引
+          let siblingsIndex = this.data.siblingsOptions.indexOf(localMember.siblings || '');
+          
+          const formData = {
+            memberId: localMember.memberId || '',
+            name: localMember.name || '',
+            gender: localMember.gender || '',
+            birthYear: localMember.birthYear || '1998',
+            age: age,
+            phone: localMember.phone || '',
+            occupation: localMember.occupation || '',
+            income: localMember.income || '',
+            education: localMember.education || '',
+            height: localMember.height || '',
+            maritalStatus: localMember.maritalStatus || '',
+            requirements: localMember.requirements || '',
+            hobbies: localMember.hobbies || '',
+            selfIntroduction: localMember.selfIntroduction || '',
+            zodiac: localMember.zodiac || '',
+            house: localMember.house || '',
+            car: localMember.car || '',
+            siblings: localMember.siblings || ''
+          };
+          
+          this.setData({
+            formData
+          });
+        }
+      }
+    } catch (error) {
+      console.error('从云数据库加载会员数据失败:', error);
+      
+      // 如果云数据库获取失败，尝试从本地获取
+      const localMember = app.getMemberById(id);
+      if (localMember) {
+        // 计算年龄（如果birthYear存在）
+        let age = localMember.age || '';
+        if (localMember.birthYear) {
+          age = this.calculateAge(localMember.birthYear);
+        }
+        
+        // 设置性别索引
+        let genderIndex = this.data.genderOptions.indexOf(localMember.gender || '');
+        
+        // 设置收入索引
+        let incomeIndex = this.data.incomeOptions.indexOf(localMember.income || '');
+        
+        // 设置教育程度索引
+        let educationIndex = this.data.educationOptions.indexOf(localMember.education || '');
+        
+        // 设置婚姻状况索引
+        let maritalStatusIndex = this.data.maritalStatusOptions.indexOf(localMember.maritalStatus || '');
+        
+        // 设置属相索引
+        let zodiacIndex = this.data.zodiacOptions.indexOf(localMember.zodiac || '');
+        
+        // 设置兄弟情况索引
+        let siblingsIndex = this.data.siblingsOptions.indexOf(localMember.siblings || '');
+        
+        const formData = {
+          memberId: localMember.memberId || '',
+          name: localMember.name || '',
+          gender: localMember.gender || '',
+          birthYear: localMember.birthYear || '1998',
+          age: age,
+          phone: localMember.phone || '',
+          occupation: localMember.occupation || '',
+          income: localMember.income || '',
+          education: localMember.education || '',
+          height: localMember.height || '',
+          maritalStatus: localMember.maritalStatus || '',
+          requirements: localMember.requirements || '',
+          hobbies: localMember.hobbies || '',
+          selfIntroduction: localMember.selfIntroduction || '',
+          zodiac: localMember.zodiac || '',
+          house: localMember.house || '',
+          car: localMember.car || '',
+          siblings: localMember.siblings || ''
+        };
+        
+        this.setData({
+          formData
+        });
+      }
+    }
+  },
+
+  // 输入框输入事件
   bindInputChange(e) {
-    const field = e.currentTarget.dataset.field;
+    const { field } = e.currentTarget.dataset;
     const value = e.detail.value;
+    
     this.setData({
       [`formData.${field}`]: value
     });
   },
 
-  /**
-   * 计算属相
-   */
-  getZodiac(year) {
-    const zodiacs = ['猴', '鸡', '狗', '猪', '鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊'];
-    return zodiacs[year % 12];
-  },
-
-  genderChange(e) {
-    const idx = e.detail.value;
-    this.setData({
-      genderIndex: idx,
-      'formData.gender': this.data.genderArray[idx]
-    });
-  },
-
-  incomeChange(e) {
-    const idx = e.detail.value;
-    this.setData({
-      incomeIndex: idx,
-      'formData.income': this.data.incomeArray[idx]
-    });
-  },
-
-  educationChange(e) {
-    const idx = e.detail.value;
-    this.setData({
-      educationIndex: idx,
-      'formData.education': this.data.educationArray[idx]
-    });
-  },
-
-  maritalStatusChange(e) {
-    const idx = e.detail.value;
-    this.setData({
-      maritalStatusIndex: idx,
-      'formData.maritalStatus': this.data.maritalStatusArray[idx]
-    });
-  },
-
-  zodiacChange(e) {
-    const idx = e.detail.value;
-    this.setData({
-      zodiacIndex: idx,
-      'formData.zodiac': this.data.zodiacArray[idx]
-    });
-  },
-
-  birthYearChange(e) {
-    const yearStr = e.detail.value;
-    const year = parseInt(yearStr);
-    const currentYear = new Date().getFullYear();
-    const age = currentYear - year;
-    const zodiac = this.getZodiac(year);
-    this.setData({
-      'formData.birthYear': yearStr,
-      'formData.age': age,
-      'formData.zodiac': zodiac
-    });
-  },
-
-  /**
-   * 处理选择器变化
-   */
+  // 选择器变化事件
   bindPickerChange(e) {
-    const field = e.currentTarget.dataset.field;
+    const { field } = e.currentTarget.dataset;
     const value = e.detail.value;
-    let selectedValue = '';
     
-    // 更新当前字段
     if (field === 'gender') {
-      selectedValue = this.data.genderOptions[value];
-    } else if (field === 'education') {
-      selectedValue = this.data.educationOptions[value];
-    } else if (field === 'maritalStatus') {
-      selectedValue = this.data.maritalStatusOptions[value];
-    } else if (field === 'zodiac') {
-      selectedValue = this.data.zodiacOptions[value];
+      this.setData({
+        'formData.gender': this.data.genderOptions[value]
+      });
     } else if (field === 'income') {
-      selectedValue = this.data.incomeOptions[value];
+      this.setData({
+        'formData.income': this.data.incomeOptions[value]
+      });
+    } else if (field === 'education') {
+      this.setData({
+        'formData.education': this.data.educationOptions[value]
+      });
+    } else if (field === 'maritalStatus') {
+      this.setData({
+        'formData.maritalStatus': this.data.maritalStatusOptions[value]
+      });
+    } else if (field === 'zodiac') {
+      this.setData({
+        'formData.zodiac': this.data.zodiacOptions[value]
+      });
     } else if (field === 'siblings') {
-      selectedValue = this.data.siblingsOptions[value];
+      this.setData({
+        'formData.siblings': this.data.siblingsOptions[value]
+      });
     } else if (field === 'birthYear') {
-       selectedValue = value;
-       
-       // 自动计算年龄和属相
-       const currentYear = new Date().getFullYear();
-       const birthYear = parseInt(value);
-       const age = currentYear - birthYear;
-       const zodiac = this.getZodiac(birthYear);
-       
-       this.setData({
-         'formData.age': age,
-         'formData.zodiac': zodiac
-       });
+      const yearValue = e.detail.value;  // date picker直接返回值，不是索引
+      this.setData({
+        'formData.birthYear': yearValue,
+        'formData.age': this.calculateAge(yearValue),
+        'formData.zodiac': this.getZodiacByYear(yearValue)
+      });
     }
-
-    this.setData({
-      [`formData.${field}`]: selectedValue
-    });
   },
 
-  /**
-   * 提交表单
-   */
-  submitForm(e) {
-    const data = this.data.formData;
+  // 计算年龄
+  calculateAge(birthYear) {
+    if (!birthYear) return '';
+    const currentYear = new Date().getFullYear();
+    return (currentYear - parseInt(birthYear)).toString();
+  },
+
+  // 根据年份获取属相
+  getZodiacByYear(year) {
+    if (!year) return '';
+    const zodiacs = this.data.zodiacOptions;
+    // 1900年是鼠年，计算偏移量
+    const offset = (parseInt(year) - 1900) % 12;
+    return zodiacs[offset];
+  },
+
+  // 提交表单
+  async submitForm(data) {
+    const formData = data || this.data.formData;
     
-    // 简单校验
-    if (!data.id || !data.name || !data.contact) {
+    // 验证必填字段
+    if (!formData.name.trim()) {
       wx.showToast({
-        title: '编号、姓名、联系方式为必填项',
+        title: '请输入姓名',
         icon: 'none'
       });
       return;
     }
-
-    // 获取现有会员列表
-    let memberList = wx.getStorageSync('memberList') || [];
     
-    // 检查编号是否重复
-    const exists = memberList.some(item => item.id === data.id);
-    if (exists) {
+    if (!formData.gender) {
       wx.showToast({
-        title: '会员编号已存在',
+        title: '请选择性别',
         icon: 'none'
       });
       return;
     }
-
-    // 保存新会员
-    memberList.push(data);
-    wx.setStorageSync('memberList', memberList);
-
-    wx.showToast({
-      title: '添加成功',
-      icon: 'success',
-      duration: 2000,
-      success: () => {
+    
+    if (!formData.phone.trim()) {
+      wx.showToast({
+        title: '请输入联系电话',
+        icon: 'none'
+      });
+      return;
+    }
+    
+    try {
+      // 获取用户openid
+      const openid = wx.getStorageSync('openid') || '';
+      
+      // 准备保存数据
+      const memberData = {
+        ...formData,
+        id: this.data.isEditing ? this.data.currentMemberId : this.generateId(), // 在编辑模式下使用当前ID
+        openid: openid,
+        createdAt: new Date().toISOString()
+      };
+      
+      let result;
+      if (this.data.isEditing) {
+        // 编辑模式：更新现有记录
+        const db = wx.cloud.database();
+        result = await db.collection('member').where({
+          id: this.data.currentMemberId
+        }).update({
+          data: memberData
+        });
+        
+        if (result.stats.updated > 0) {
+          result = { success: true };
+        } else {
+          throw new Error('更新失败');
+        }
+      } else {
+        // 添加模式：保存新记录
+        // 使用app.js中定义的云数据库保存函数
+        result = await app.saveMemberWithSDK(memberData);
+      }
+      
+      if (result.success) {
+        wx.showToast({
+          title: this.data.isEditing ? '更新成功' : '保存成功',
+          icon: 'success'
+        });
+        
+        // 延迟返回上一页，让用户看到成功提示
         setTimeout(() => {
           wx.navigateBack();
-        }, 2000);
+        }, 1500);
+      } else {
+        throw new Error(result.message || '操作失败');
       }
-    });
-  },
-
-  formSubmit(e) {
-    const v = e.detail.value || {};
-    const id = `${Date.now()}`;
-    const gender = this.data.genderArray[this.data.genderIndex];
-    const income = this.data.incomeArray[this.data.incomeIndex];
-    const education = this.data.educationArray[this.data.educationIndex];
-    const maritalStatus = this.data.maritalStatusArray[this.data.maritalStatusIndex];
-    const zodiac = this.data.zodiacArray[this.data.zodiacIndex];
-
-    const data = {
-      id,
-      name: v.name || '',
-      gender,
-      birthYear: this.data.formData.birthYear || '',
-      age: v.age || this.data.formData.age || '',
-      zodiac,
-      phone: v.phone || '',
-      occupation: v.occupation || '',
-      income,
-      education,
-      height: v.height || '',
-      maritalStatus,
-      requirements: v.requirements || '',
-      hobbies: v.hobbies || '',
-      selfIntroduction: v.selfIntroduction || ''
-    };
-
-    if (!data.name || !data.phone) {
+    } catch (error) {
+      console.error(this.data.isEditing ? '更新会员失败:' : '保存会员失败:', error);
+      
       wx.showToast({
-        title: '姓名、联系电话为必填项',
+        title: this.data.isEditing ? '更新失败' : '保存失败',
         icon: 'none'
       });
-      return;
     }
-
-    let memberList = wx.getStorageSync('memberList') || [];
-    memberList.push(data);
-    wx.setStorageSync('memberList', memberList);
-    wx.showToast({
-      title: '保存成功',
-      icon: 'success'
-    });
   },
 
+  // 表单提交事件
+  async formSubmit(e) {
+    const formData = e.detail.value;
+    
+    // 合并表单数据和picker选择的数据
+    const completeFormData = {
+      ...this.data.formData,
+      ...formData
+    };
+    
+    // 在编辑模式下，保持原始ID不变
+      if (this.data.isEditing) {
+        completeFormData.id = this.data.currentMemberId;
+        
+        // 更新云数据库中的会员数据
+        try {
+          const db = wx.cloud.database();
+          const result = await db.collection('member').where({
+            id: this.data.currentMemberId
+          }).update({
+            data: completeFormData
+          });
+          
+          if (result.stats.updated > 0) {
+            wx.showToast({
+              title: '更新成功',
+              icon: 'success'
+            });
+            
+            // 延迟返回上一页，让用户看到成功提示
+            setTimeout(() => {
+              wx.navigateBack();
+            }, 1500);
+            return;
+          }
+        } catch (error) {
+          console.error('更新云数据库中的会员数据失败:', error);
+        }
+      }
+    
+    await this.submitForm(completeFormData);
+  },
+
+  // 生成唯一ID
+  generateId() {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+  },
+
+  // 重置表单
   formReset() {
+    const defaultBirthYear = '1998';
     this.setData({
-      genderIndex: 0,
-      incomeIndex: 0,
-      educationIndex: 0,
-      maritalStatusIndex: 0,
-      zodiacIndex: 0,
       formData: {
-        id: '',
+        memberId: '',
         name: '',
         gender: '',
-        age: '',
-        birthYear: '',
-        zodiac: '',
-        height: '',
-        weight: '',
-        education: '',
+        birthYear: defaultBirthYear,
+        age: this.calculateAge(defaultBirthYear),
+        phone: '',
         occupation: '',
         income: '',
-        house: '',
-        car: '',
-        phone: '',
-        siblings: '',
-        family: '',
+        education: '',
+        height: '',
         maritalStatus: '',
         requirements: '',
-        contact: ''
+        hobbies: '',
+        selfIntroduction: '',
+        zodiac: this.getZodiacByYear(defaultBirthYear),
+        house: '',
+        car: '',
+        siblings: ''
       }
     });
-  },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
-    // 默认选中1998年
-    const defaultYear = 1998;
-    const currentYear = new Date().getFullYear();
-    const age = currentYear - defaultYear;
-    const zodiac = this.getZodiac(defaultYear);
-
-    this.setData({
-      'formData.birthYear': defaultYear.toString(),
-      'formData.age': age,
-      'formData.zodiac': zodiac
-    });
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
   }
-})
+});

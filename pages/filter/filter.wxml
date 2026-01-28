@@ -116,8 +116,8 @@
     </view>
     
     <scroll-view scroll-y class="results-list">
-      <view class="member-item" wx:for="{{filteredMembers}}" wx:key="id" bindtap="viewMemberDetail" data-id="{{item.id}}">
-        <view class="member-info">
+      <view class="member-item" wx:for="{{filteredMembers}}" wx:key="id">
+        <view class="member-info" bindtap="viewMemberDetail" data-id="{{item.id}}">
           <text class="member-name">{{item.name}}</text>
           <text class="member-gender">{{item.gender}}</text>
           <text class="member-age">{{item.age}}岁</text>
@@ -125,6 +125,9 @@
         <view class="member-details">
           <text class="member-occupation">{{item.occupation}}</text>
           <text class="member-height">{{item.height}}cm</text>
+          <view class="member-actions">
+            <button class="action-btn edit-btn" bindtap="editMember" data-id="{{item.id}}">编辑</button>
+          </view>
         </view>
       </view>
       

@@ -6,17 +6,39 @@
       <text class="member-gender {{member.gender === '男' ? 'male' : 'female'}}">{{member.gender}}</text>
     </view>
     
-    <view class="member-info-section">
+    <view class="member-info-section">   
+      <view class="info-row" wx:if="{{member.memberId}}">
+        <text class="info-label">会员编号</text>
+        <text class="info-value">{{member.memberId}}</text>
+      </view>
+      <view class="info-row" wx:if="{{member.birthYear}}">
+        <text class="info-label">出生年份</text>
+        <text class="info-value">{{member.birthYear}}年</text>
+      </view>
       <view class="info-row">
         <text class="info-label">年龄</text>
         <text class="info-value">{{member.age}}岁</text>
       </view>
-      
+      <view class="info-row">
+        <text class="info-label">属相</text>
+        <text class="info-value">{{member.zodiac}}</text>
+      </view>
       <view class="info-row">
         <text class="info-label">联系电话</text>
         <text class="info-value">{{member.phone}}</text>
       </view>
-      
+      <view class="info-row">
+        <text class="info-label">身高</text>
+        <text class="info-value">{{member.height ? member.height + 'cm' : '未填写'}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">体重</text>
+        <text class="info-value">{{member.weight ? member.height + 'kg' : '未填写'}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">学历</text>
+        <text class="info-value">{{member.education}}</text>
+      </view>
       <view class="info-row">
         <text class="info-label">职业</text>
         <text class="info-value">{{member.occupation}}</text>
@@ -26,36 +48,27 @@
         <text class="info-label">收入</text>
         <text class="info-value">{{member.income}}</text>
       </view>
-      
       <view class="info-row">
-        <text class="info-label">教育程度</text>
-        <text class="info-value">{{member.education}}</text>
+        <text class="info-label">房子</text>
+        <text class="info-value">{{member.house || '未填写'}}</text>
       </view>
-      
       <view class="info-row">
-        <text class="info-label">身高</text>
-        <text class="info-value">{{member.height ? member.height + 'cm' : '未填写'}}</text>
+        <text class="info-label">车子</text>
+        <text class="info-value">{{member.car || '未填写'}}</text>
       </view>
-      
       <view class="info-row">
-        <text class="info-label">婚姻状况</text>
-        <text class="info-value">{{member.maritalStatus}}</text>
-      </view>
-      
-      <view class="info-row" wx:if="{{member.memberId}}">
-        <text class="info-label">会员编号</text>
-        <text class="info-value">{{member.memberId}}</text>
-      </view>
-      
-      <view class="info-row" wx:if="{{member.birthYear}}">
-        <text class="info-label">出生年份</text>
-        <text class="info-value">{{member.birthYear}}年</text>
+        <text class="info-label">兄弟</text>
+        <text class="info-value"> {{ member.siblings || '未填写'}}</text>
       </view>
     </view>
     
-    <view class="member-description" wx:if="{{member.requirements}}">
+    <view class="member-description" >
+      <text class="description-label">家庭成员</text>
+      <text class="description-content">{{member.family || "未填写"}}</text>
+    </view>
+    <view class="member-description" >
       <text class="description-label">择偶要求</text>
-      <text class="description-content">{{member.requirements}}</text>
+      <text class="description-content">{{member.requirements || "未填写"}}</text>
     </view>
     
     <view class="member-description" wx:if="{{member.hobbies}}">

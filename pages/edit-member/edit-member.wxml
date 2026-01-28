@@ -1,4 +1,4 @@
-<!--pages/add-member/add-member.wxml-->
+<!--pages/edit-member/edit-member.wxml-->
 <view class="container">
   <form bindsubmit="formSubmit" bindreset="formReset">
     <view class="form-group">
@@ -126,6 +126,6 @@
       </view>
     </view>
 
-    <button type="primary" form-type="submit" class="submit-btn">保存会员信息</button>
+    <button type="primary" form-type="submit" class="submit-btn">更新会员信息</button>
   </form>
 </view>

@@ -2,6 +2,7 @@
   "pages": [
     "pages/members/members",
     "pages/add-member/add-member",
+    "pages/edit-member/edit-member",
     "pages/filter/filter",
     "pages/member-detail/member-detail",
     "pages/test/test"
@@ -26,11 +27,6 @@
       {
         "pagePath": "pages/add-member/add-member",
         "text": "添加会员"
-      },
-      {
-        "pagePath": "pages/filter/filter",
-        "text": "筛选会员"
-        
       }
     ]
   },

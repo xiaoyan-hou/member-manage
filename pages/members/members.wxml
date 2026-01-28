@@ -14,6 +14,140 @@
       <text class="stat-number">{{femaleCount}}</text>
       <text class="stat-label">女性</text>
     </view>
+    <view class="stat-item filter-item" bindtap="toggleFilterPanel">
+      <text class="stat-icon">🔍</text>
+      <text class="stat-label">筛选</text>
+      <text class="arrow {{showFilterPanel ? 'arrow-up' : ''}}">▼</text>
+    </view>
+  </view>
+
+  <!-- 筛选面板 -->
+  <view class="filter-panel" wx:if="{{showFilterPanel}}">
+    <!-- 会员编号筛选 -->
+    <view class="filter-section">
+      <view class="filter-section-title">会员编号</view>
+      <input 
+        class="member-id-input" 
+        type="text" 
+        placeholder="请输入会员编号" 
+        value="{{memberId}}"
+        bindinput="onMemberIdInput"
+      />
+    </view>
+
+    <!-- 年龄段筛选 -->
+    <view class="filter-section">
+      <view class="filter-section-title">年龄</view>
+      <view class="filter-options">
+        <view 
+          wx:for="{{ageOptions}}" 
+          wx:key="index" 
+          class="filter-option {{selectedAgeRange === item ? 'selected' : ''}}"
+          data-index="{{index}}"
+          bindtap="selectAgeRange"
+        >
+          {{item}}
+        </view>
+      </view>
+      <view class="custom-input-row">
+        <input 
+          class="custom-input" 
+          type="number" 
+          placeholder="最小" 
+          value="{{ageMin}}"
+          data-field="min"
+          data-type="age"
+          bindinput="onAgeInput"
+        />
+        <text class="input-separator">-</text>
+        <input 
+          class="custom-input" 
+          type="number" 
+          placeholder="最大" 
+          value="{{ageMax}}"
+          data-field="max"
+          data-type="age"
+          bindinput="onAgeInput"
+        />
+        <text class="input-unit">岁</text>
+      </view>
+    </view>
+
+    <!-- 性别筛选 -->
+    <view class="filter-section">
+      <view class="filter-section-title">性别</view>
+      <view class="filter-options">
+        <view 
+          wx:for="{{genderOptions}}" 
+          wx:key="index" 
+          class="filter-option {{selectedGender === item ? 'selected' : ''}}"
+          data-index="{{index}}"
+          bindtap="selectGender"
+        >
+          {{item}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 身高筛选 -->
+    <view class="filter-section">
+      <view class="filter-section-title">身高</view>
+      <view class="filter-options">
+        <view 
+          wx:for="{{heightOptions}}" 
+          wx:key="index" 
+          class="filter-option {{selectedHeightRange === item ? 'selected' : ''}}"
+          data-index="{{index}}"
+          bindtap="selectHeightRange"
+        >
+          {{item}}
+        </view>
+      </view>
+      <view class="custom-input-row">
+        <input 
+          class="custom-input" 
+          type="number" 
+          placeholder="最小" 
+          value="{{heightMin}}"
+          data-field="min"
+          data-type="height"
+          bindinput="onHeightInput"
+        />
+        <text class="input-separator">-</text>
+        <input 
+          class="custom-input" 
+          type="number" 
+          placeholder="最大" 
+          value="{{heightMax}}"
+          data-field="max"
+          data-type="height"
+          bindinput="onHeightInput"
+        />
+        <text class="input-unit">cm</text>
+      </view>
+    </view>
+
+    <!-- 学历筛选 -->
+    <view class="filter-section">
+      <view class="filter-section-title">学历</view>
+      <view class="filter-options">
+        <view 
+          wx:for="{{educationOptions}}" 
+          wx:key="index" 
+          class="filter-option {{selectedEducation === item ? 'selected' : ''}}"
+          data-index="{{index}}"
+          bindtap="selectEducation"
+        >
+          {{item}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 筛选按钮 -->
+    <view class="filter-buttons">
+      <button class="btn btn-secondary" bindtap="resetFilter">重置</button>
+      <button class="btn btn-primary" bindtap="confirmFilter">确定</button>
+    </view>
   </view>
 
   <!-- 会员列表 -->
@@ -55,8 +189,8 @@
           <text class="member-info-value">{{item.education}}</text>
         </view>
         <view class="member-info-item">
-          <text class="member-info-label">婚姻</text>
-          <text class="member-info-value">{{item.maritalStatus}}</text>
+          <text class="member-info-label">兄弟情况</text>
+          <text class="member-info-value">{{item.siblings}}</text>
         </view>
       </view>
       
@@ -65,8 +199,8 @@
       </view>
       
       <view class="action-buttons">
-        <button class="btn btn-secondary btn-small" bindtap="editMember" data-id="{{item.id}}" catchtap="true">编辑</button>
-        <button class="btn btn-danger btn-small" bindtap="deleteMember" data-id="{{item.id}}" catchtap="true">删除</button>
+        <button class="btn btn-secondary btn-small" catchtap="editMember" data-id="{{item.id}}">编辑</button>
+        <button class="btn btn-danger btn-small" catchtap="deleteMember" data-id="{{item.id}}" data-cloudrecordid="{{item.cloudRecordId}}">删除</button>
       </view>
     </view>
   </view>

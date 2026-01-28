@@ -23,7 +23,10 @@ App({
   },
   
   globalData: {
-    userInfo: null
+    userInfo: null,
+    currentEditingId: null, // 当前正在编辑的会员ID
+    members: [],           // 本地存储的会员列表
+    editingMemberId: null  // 正在编辑的会员ID（为了向后兼容）
   },
   
   // 工具函数：生成唯一ID
@@ -102,7 +105,7 @@ App({
         return false;
       }
       
-      // 婚姻状况筛选
+      // 兄弟情况筛选（保持兼容性，实际字段名为maritalStatus）
       if (filters.maritalStatus && member.maritalStatus !== filters.maritalStatus) {
         return false;
       }

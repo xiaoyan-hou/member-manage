@@ -241,3 +241,25 @@
   font-size: 26rpx;
   color: #999;
 }
+
+/* 会员操作按钮 */
+.member-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  flex: 1;
+  margin-left: auto;
+}
+
+.action-btn {
+  padding: 8rpx 20rpx;
+  font-size: 24rpx;
+  border-radius: 6rpx;
+  margin-left: 16rpx;
+  border: none;
+}
+
+.edit-btn {
+  background-color: #ffd700;
+  color: #333;
+}

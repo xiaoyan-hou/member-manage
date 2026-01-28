@@ -298,5 +298,14 @@ Page({
     wx.navigateTo({
       url: `/pages/member-detail/member-detail?id=${memberId}`
     });
+  },
+
+  // 编辑会员
+  editMember(e) {
+    const memberId = e.currentTarget.dataset.id;
+    // 跳转到编辑会员页面并传递会员ID
+    wx.navigateTo({
+      url: `/pages/edit-member/edit-member?id=${memberId}`
+    });
   }
 });

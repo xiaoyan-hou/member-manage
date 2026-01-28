@@ -29,13 +29,11 @@ Page({
   async loadMemberDetail(id) {
     try {
       // 从云数据库获取会员数据 - 使用where查询自定义id字段
-      console.log('-=======', id);
       const db = wx.cloud.database();
       const result = await db.collection('member').where({
         id: id
       }).get();
       
-      console.log('---result', result);
       if (result && result.data && result.data.length > 0) {
         // 云数据库中找到了会员数据
         const memberData = result.data[0];
@@ -43,7 +41,20 @@ Page({
           member: memberData,
           memberId: memberData.id  // 更新memberId以确保一致性
         });
-    } else {
+      } else {
+        // 如果云数据库获取失败，尝试从本地获取
+        const app = getApp();
+        const localMember = app.getMemberById(id);
+        if (localMember) {
+          this.setData({
+            member: localMember,
+            memberId: localMember.id  // 更新memberId以确保一致性
+          });
+        }
+      }
+    } catch (error) {
+      console.error('从云数据库加载会员详情失败:', error);
+      
       // 如果云数据库获取失败，尝试从本地获取
       const app = getApp();
       const localMember = app.getMemberById(id);
@@ -54,29 +65,18 @@ Page({
         });
       }
     }
-    } catch (error) {
-    console.error('从云数据库加载会员详情失败:', error);
-    
-    // 如果云数据库获取失败，尝试从本地获取
-    const app = getApp();
-    const localMember = app.getMemberById(id);
-    if (localMember) {
-      this.setData({
-        member: localMember,
-        memberId: localMember.id  // 更新memberId以确保一致性
-      });
-    }
-  }
   },
 
   /**
    * 编辑会员信息
    */
   editMember() {
-    const memberId = this.data.member.id;
+    const memberId = this.data.memberId || this.data.member?.id;
+    
     if (memberId) {
+      // 跳转到编辑会员页面并传递当前会员ID
       wx.navigateTo({
-        url: `/pages/add-member/add-member?id=${memberId}`
+        url: `/pages/edit-member/edit-member?id=${memberId}`
       });
     } else {
       wx.showToast({

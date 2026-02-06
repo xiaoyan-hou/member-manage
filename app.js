@@ -7,14 +7,14 @@ App({
       // 如果没有数据，设置初始数据
       wx.setStorageSync('datingMembers', []);
     }
-    console.log('相亲会员管理系统启动成功');
+    console.log('会员管理系统启动成功');
 
     // 初始化云开发
     if (!wx.cloud) {
       console.error('小程序基础库版本过低，暂不支持云开发');
     } else {
       wx.cloud.init({
-        env: "cloud1-1gbe0trm2692749a", // 当前的云开发环境 ID
+        env: "cloud1-4gy6mr930cd040ae", // 当前的云开发环境 ID
         traceUser: true,
       });
       console.log('云开发初始化成功');

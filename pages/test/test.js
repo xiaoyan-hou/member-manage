@@ -15,7 +15,7 @@ Page({
       
       // 获取所有会员数据
       const result = await db.collection('member').get();
-      console.log('从云数据库获取的所有数据:', result.data);
+      // console.log('从云数据库获取的所有数据:', result.data);
       
       if (result.data && result.data.length > 0) {
         // 取第一条数据进行测试

@@ -53,7 +53,7 @@ Page({
       const db = wx.cloud.database();
       const result = await db.collection('member').get();
 
-      console.log('从云数据库获取的所有数据:', result.data);
+      // console.log('从云数据库获取的所有数据:', result.data);
       
       if (result && result.data) {
         // 为每个会员添加cloudRecordId用于后续删除操作
